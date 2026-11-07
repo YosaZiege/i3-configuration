@@ -1,0 +1,173 @@
+# ── i3 config · Clean start ────────────────────────────────────────
+#   GNOME lives at GDM login → choose GNOME or i3 at will.
+# ────────────────────────────────────────────────────────────────────
+
+set $mod Mod4
+
+# ── Font ────────────────────────────────────────────────────────────
+font pango:JetBrains Mono 10
+
+# ── Gaps & Borders ──────────────────────────────────────────────────
+gaps inner 8
+gaps outer 4
+for_window [class=".*"] border pixel 2
+smart_gaps on
+smart_borders on
+
+# ── Colors (Nord) ───────────────────────────────────────────────────
+set $bg        #2e3440
+set $bg_hl     #3b4252
+set $fg        #d8dee9
+set $fg_dim    #616e88
+set $primary   #81a1c1
+set $accent    #88c0d0
+set $urgent    #bf616a
+
+client.focused           $primary  $bg       $fg       $accent   $primary
+client.focused_inactive  $fg_dim   $bg       $fg_dim   $fg_dim   $fg_dim
+client.unfocused         $bg_hl    $bg       $fg_dim   $bg_hl    $bg_hl
+client.urgent            $urgent   $bg       $fg       $urgent   $urgent
+client.placeholder       $bg       $bg       $fg       $bg       $bg
+client.background        $bg
+
+# ── Launch shortcuts ────────────────────────────────────────────────
+bindsym $mod+Return       exec kitty
+bindsym $mod+d            exec rofi -show drun -show-icons
+bindsym $mod+Tab          exec rofi -show window -show-icons
+
+# ── Window management ───────────────────────────────────────────────
+bindsym $mod+q            kill
+bindsym $mod+f            fullscreen toggle
+bindsym $mod+Shift+space  floating toggle
+bindsym $mod+space        focus mode_toggle
+bindsym $mod+s            layout stacking
+bindsym $mod+z            layout tabbed
+bindsym $mod+t            layout toggle split
+bindsym $mod+v            split v
+bindsym $mod+b            split h
+
+# ── Focus (vim keys) ────────────────────────────────────────────────
+bindsym $mod+h            focus left
+bindsym $mod+j            focus down
+bindsym $mod+k            focus up
+bindsym $mod+l            focus right
+bindsym $mod+Left         focus left
+bindsym $mod+Down         focus down
+bindsym $mod+Up           focus up
+bindsym $mod+Right        focus right
+
+# ── Move windows (vertical, within workspace) ──────────────────────
+bindsym $mod+Shift+j      move down
+bindsym $mod+Shift+k      move up
+bindsym $mod+Shift+Down   move down
+bindsym $mod+Shift+Up     move up
+
+# ── Move window between monitors ───────────────────────────────────
+bindsym $mod+Shift+h      move container to output left
+bindsym $mod+Shift+l      move container to output right
+bindsym $mod+Shift+Left   move container to output left
+bindsym $mod+Shift+Right  move container to output right
+
+# ── Move whole workspace between monitors ──────────────────────────
+bindsym $mod+Ctrl+Shift+h      move workspace to output left
+bindsym $mod+Ctrl+Shift+l      move workspace to output right
+bindsym $mod+Ctrl+Shift+Left   move workspace to output left
+bindsym $mod+Ctrl+Shift+Right  move workspace to output right
+
+# ── Focus between monitors ─────────────────────────────────────────
+bindsym $mod+Ctrl+h       focus output left
+bindsym $mod+Ctrl+l       focus output right
+bindsym $mod+Ctrl+Left    focus output left
+bindsym $mod+Ctrl+Right   focus output right
+
+# ── Resize mode (vim keys) ──────────────────────────────────────────
+bindsym $mod+r mode " resize"
+mode " resize" {
+    bindsym h     resize shrink width  5 px or 5 ppt
+    bindsym l     resize grow   width  5 px or 5 ppt
+    bindsym k     resize shrink height 5 px or 5 ppt
+    bindsym j     resize grow   height 5 px or 5 ppt
+    bindsym Left  resize shrink width  5 px or 5 ppt
+    bindsym Right resize grow   width  5 px or 5 ppt
+    bindsym Up    resize shrink height 5 px or 5 ppt
+    bindsym Down  resize grow   height 5 px or 5 ppt
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+# ── Workspaces (1–9) ────────────────────────────────────────────────
+set $ws1  1:main
+set $ws2  2
+set $ws3  3
+set $ws4  4
+set $ws5  5
+set $ws6  6
+set $ws7  7
+set $ws8  8
+set $ws9  9:scratch
+
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+6 workspace $ws6
+bindsym $mod+7 workspace $ws7
+bindsym $mod+8 workspace $ws8
+bindsym $mod+9 workspace $ws9
+
+bindsym $mod+Shift+1 move container to workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5
+bindsym $mod+Shift+6 move container to workspace $ws6
+bindsym $mod+Shift+7 move container to workspace $ws7
+bindsym $mod+Shift+8 move container to workspace $ws8
+bindsym $mod+Shift+9 move container to workspace $ws9
+
+# ── Media keys (sound) ──────────────────────────────────────────────
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindsym XF86AudioMute        exec --no-startup-id pactl set-sink-mute   @DEFAULT_SINK@ toggle
+bindsym XF86AudioMicMute     exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle
+bindsym XF86AudioPlay        exec --no-startup-id playerctl play-pause
+bindsym XF86AudioNext        exec --no-startup-id playerctl next
+bindsym XF86AudioPrev        exec --no-startup-id playerctl previous
+
+# ── Brightness ──────────────────────────────────────────────────────
+bindsym XF86MonBrightnessUp   exec --no-startup-id brightnessctl set +10%
+bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 10%-
+
+# ── WiFi / Bluetooth / Sound GUIs ───────────────────────────────────
+bindsym $mod+Shift+n exec --no-startup-id nm-connection-editor
+bindsym $mod+Shift+b exec --no-startup-id blueman-manager
+bindsym $mod+Shift+v exec --no-startup-id pavucontrol
+
+# ── Screenshots ─────────────────────────────────────────────────────
+bindsym Print            exec --no-startup-id flameshot gui
+bindsym $mod+Print       exec --no-startup-id flameshot full  -p ~/Pictures/screenshots/
+bindsym $mod+Shift+Print exec --no-startup-id flameshot screen -p ~/Pictures/screenshots/
+
+# ── Session ─────────────────────────────────────────────────────────
+bindsym $mod+Shift+r restart
+bindsym $mod+Escape  exec --no-startup-id i3lock -c 2e3440
+bindsym $mod+Shift+e exec --no-startup-id i3-msg exit
+bindsym $mod+Shift+s exec --no-startup-id "i3lock -c 2e3440 && sleep 1 && systemctl suspend"
+
+# ── Floating windows ────────────────────────────────────────────────
+for_window [class="Pavucontrol"]   floating enable
+for_window [class="Blueman-manager"] floating enable
+for_window [class="Nm-connection-editor"] floating enable
+for_window [window_role="pop-up"]       floating enable
+for_window [window_role="task_dialog"]  floating enable
+
+# ── Autostart ───────────────────────────────────────────────────────
+exec_always --no-startup-id setxkbmap -option caps:escape
+exec --no-startup-id feh --bg-fill ~file:///home/yosa/Pictures/Images/8281793fc768423ea8e50a2ef722eb93~tplv-jj85edgx6n-image-origin.jpeg
+exec_always --no-startup-id picom
+exec --no-startup-id dunst
+exec --no-startup-id nm-applet
+exec --no-startup-id blueman-applet
+exec --no-startup-id lxpolkit
+exec_always --no-startup-id ~/.config/polybar/launch.sh
